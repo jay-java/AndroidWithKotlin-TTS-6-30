@@ -1,4 +1,6 @@
 fun main() {
+    println("")
+
 
     var a1= 10
     a1 = 11
