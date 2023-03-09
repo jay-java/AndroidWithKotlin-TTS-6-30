@@ -6,7 +6,6 @@ fun main() {
     var s = sc.next()
     println("s = $s")
 
-
     println("enter name : ")
     var a = readLine()
     println(a)
@@ -15,11 +14,8 @@ fun main() {
 //    var b:Int = Integer.valueOf(readLine())
 //    println("b = $b")
 
-
 //    println("enter i = ")
 //    var i:Int = sc.nextInt()
 //    println(i)
-
-
 
 }
