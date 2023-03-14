@@ -1,5 +1,14 @@
 fun main() {
-    var s = "hello kotlin"
+    var str = """hello 
+        |kotlin
+        |how 
+        |are 
+        |you?
+    """.trimMargin()
+    println(str)
+
+    var s = "hello" +
+            " kotlin"
     println(s)
     var s1 = "hello kotlin"
     println(s1)
