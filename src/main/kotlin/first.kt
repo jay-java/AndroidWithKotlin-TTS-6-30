@@ -6,8 +6,10 @@ fun main() {
     a1 = 11
     println(a1)
 
-    val b = 12
+    val b = 0
     println(b)
+    var c = a/b
+    println(c)
 
 //    var a:Int = 12
 //    var b:String = "hello"
