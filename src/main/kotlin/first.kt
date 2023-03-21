@@ -1,6 +1,10 @@
 fun main() {
-    println("")
-
+    var d: Double = 11.23
+    println(d)
+    var e:Int = d.toInt()
+    println(e)
+    var value:String = d.toString()
+    println(value)
 
     var a1= 10
     a1 = 11
