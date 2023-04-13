@@ -18,6 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.1"/>
     <EditText
+        android:id="@+id/name_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="enter name"
@@ -29,6 +30,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.2"/>
     <EditText
+        android:id="@+id/contact_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="enter contact"
@@ -41,6 +43,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3"/>
     <EditText
+        android:id="@+id/address_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="enter address"
@@ -52,6 +55,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.4"/>
     <EditText
+        android:id="@+id/email_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="enter email"
@@ -63,6 +67,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5"/>
     <EditText
+        android:id="@+id/password_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="enter password"
@@ -74,6 +79,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.6"/>
     <Button
+        android:id="@+id/submit_btn_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Submit"
@@ -83,8 +89,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.7"
-        />
+        app:layout_constraintVertical_bias="0.7"/>
     <TextView
         android:id="@+id/login_id"
         android:layout_width="wrap_content"
@@ -97,5 +102,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.8" />
+
+    <Button
+        android:id="@+id/btn_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Click"
+        android:textColor="#B1B5CD"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
