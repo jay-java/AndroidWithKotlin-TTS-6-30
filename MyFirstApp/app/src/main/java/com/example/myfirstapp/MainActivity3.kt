@@ -1,15 +1,14 @@
 package com.example.myfirstapp
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.CheckBox
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.RatingBar
-import android.widget.SeekBar
-import android.widget.Switch
-import android.widget.TextView
-import android.widget.Toast
+import android.text.format.DateFormat.getDateFormat
+import android.view.View
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
+import java.util.*
 
 class MainActivity3 : AppCompatActivity() {
     lateinit var radioGroup:RadioGroup
@@ -25,6 +24,11 @@ class MainActivity3 : AppCompatActivity() {
     var end = 0
     lateinit var ratingBar: RatingBar
     lateinit var ratingBarText:TextView
+    lateinit var alertBTN:Button
+    lateinit var dateBTN:Button
+    lateinit var timeBTN:Button
+    lateinit var dateText:TextView
+    lateinit var timeText:TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main3)
@@ -97,5 +101,56 @@ class MainActivity3 : AppCompatActivity() {
             ratingBarText.text = rating.toString()
         }
 
+        alertBTN = findViewById(R.id.alert_btn_id)
+        alertBTN.setOnClickListener(View.OnClickListener {
+            var alert = AlertDialog.Builder(this)
+            alert.setTitle("Alert")
+            alert.setMessage("Are you sure ? ")
+            alert.setPositiveButton(android.R.string.yes){dialogue,which->
+                Toast.makeText(this@MainActivity3,"Yes",Toast.LENGTH_SHORT).show()
+            }
+
+            alert.setNegativeButton(android.R.string.no){
+                dialogue,which->
+                Toast.makeText(this@MainActivity3,"No",Toast.LENGTH_SHORT).show()
+            }
+
+            alert.setNeutralButton("Maybe"){
+                dialogue,which->
+                Toast.makeText(this@MainActivity3,"Maybe later",Toast.LENGTH_SHORT).show()
+            }
+            alert.show()
+        })
+
+        var calender= Calendar.getInstance();
+        var year=calender.get(Calendar.YEAR);
+        var month=calender.get(Calendar.MONTH);
+        var day=calender.get(Calendar.DAY_OF_MONTH)
+
+        dateBTN = findViewById(R.id.date_btn_id)
+        dateBTN.setOnClickListener(View.OnClickListener {
+            var dpd=
+                DatePickerDialog(this,DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+                Toast.makeText(this@MainActivity3,"$dayOfMonth/$month/$year",Toast.LENGTH_SHORT).show()
+            },year,month
+                ,day)
+            dpd.show()
+        })
+
+
+        var mTimePicker: TimePickerDialog
+        val mcurrentTime = Calendar.getInstance()
+        val hour = mcurrentTime.get(Calendar.HOUR_OF_DAY)
+        val minute = mcurrentTime.get(Calendar.MINUTE)
+        timeBTN = findViewById(R.id.time_btn_id)
+        timeText = findViewById(R.id.time_text_id)
+        timeBTN.setOnClickListener(View.OnClickListener {
+            mTimePicker = TimePickerDialog(this, object : TimePickerDialog.OnTimeSetListener {
+                override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+                    Toast.makeText(this@MainActivity3,"$hourOfDay/$minute",Toast.LENGTH_SHORT).show()
+                }
+            }, hour, minute, false)
+            mTimePicker.show()
+        })
     }
 }

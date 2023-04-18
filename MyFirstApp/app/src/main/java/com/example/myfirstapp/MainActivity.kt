@@ -3,6 +3,7 @@ package com.example.myfirstapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
@@ -70,6 +71,34 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    override fun onStart() {
+        super.onStart()
+        Log .d("start","activity started")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log .d("resume","activity resumed")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log .d("pause","activity Paused")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log .d("Stop","activity stopped")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log .d("destroy","activity destroyed")
+    }
+
+
+
+
     override fun onCreateContextMenu(
         menu: ContextMenu?,
         v: View?,
@@ -88,8 +117,6 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onContextItemSelected(item)
     }
-
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.option_menu,menu)

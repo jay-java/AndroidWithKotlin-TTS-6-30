@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">MyFirstApp</string>
     <string name="app_name1">Chat</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
+    <string name="Later">Later</string>
+
 </resources>
