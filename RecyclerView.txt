@@ -1,0 +1,141 @@
+1.Recyclerview
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recycler_view_id"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+2.single item
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_margin="10dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/image_id"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/c"
+        android:adjustViewBounds="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_header_id"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="C"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/image_id"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+3.model class
+
+package com.example.recyclerviewcardview
+
+data class User(var image:Int,var heading:String)
+
+
+4.Adapter
+
+package com.example.recyclerviewcardview
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.imageview.ShapeableImageView
+
+class MyAdapter(private val userList: ArrayList<User>): RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.list_item,
+        parent,false)
+        return  MyViewHolder(itemView)
+    }
+
+    override fun getItemCount(): Int {
+        return userList.size
+    }
+
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        val currentITem = userList[position]
+        holder.image.setImageResource(currentITem.image)
+        holder.header.text = currentITem.heading
+    }
+
+
+    class MyViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
+        val image:ShapeableImageView = itemView.findViewById(R.id.image_id)
+        val header:TextView = itemView.findViewById(R.id.text_header_id)
+    }
+}
+
+5.Main Activity
+
+package com.example.recyclerviewcardview
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+
+class MainActivity : AppCompatActivity() {
+    private lateinit var recyclerView: RecyclerView
+    private  lateinit var  newArrayList:ArrayList<User>
+    lateinit var images : Array<Int>
+    lateinit var headingText : Array<String>
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        images = arrayOf(R.drawable.c,
+            R.drawable.cplus,
+            R.drawable.java,
+            R.drawable.js,
+            R.drawable.python,
+            R.drawable.php,
+            R.drawable.dart,
+            R.drawable.dotnet,
+            R.drawable.kotlin)
+
+        headingText = arrayOf("C","C++","JAVA","Javascript","Python","PHP","Dart",".net","Kotlin")
+
+        recyclerView = findViewById(R.id.recycler_view_id)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.setHasFixedSize(true)
+
+        newArrayList = arrayListOf<User>()
+        getUserData()
+    }
+
+    private fun getUserData() {
+        for(i in images.indices){
+            val user = User(images[i],headingText[i])
+            newArrayList.add(user)
+        }
+        recyclerView.adapter= MyAdapter(newArrayList)
+    }
+}
