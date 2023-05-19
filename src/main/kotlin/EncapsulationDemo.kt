@@ -5,6 +5,7 @@ fun main() {
 //    println(s1.getId())
 //    println(s1.getName())
     println(s1)
+
 }
 
 class Student {
@@ -23,7 +24,8 @@ class Student {
         return name
     }
     override fun toString(): String {
-        return super.toString()
+        return "Student(id=$id)\nStudent(name=$name)"
     }
+
 
 }

@@ -23,5 +23,4 @@ class FragmentA : Fragment() {
         }
         return  view
     }
-
 }
