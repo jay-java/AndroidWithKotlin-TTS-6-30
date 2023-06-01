@@ -1,0 +1,72 @@
+1.Gradle :
+
+     compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+ 
+    plugin : 
+    id 'kotlin-kapt'
+
+    implementation("androidx.room:room-runtime:2.5.1")
+    kapt("androidx.room:room-compiler:2.5.1")
+    implementation("androidx.room:room-ktx:2.5.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
+    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+
+2.MOdel
+@Entity(tableName = "users")
+data class Users(
+    @PrimaryKey(autoGenerate = true)
+    val id:Long,
+    val name: String,
+    val contact:String
+)
+
+3.@Dao
+interface UserSDao {
+    @Insert
+    suspend fun insertUser(user:Users)
+    @Update
+    suspend fun updateUser(user:Users)
+    @Delete
+    suspend fun deleteUser(user:Users)
+    @Query("SELECT * FROM USERS")
+    fun getUsers(): LiveData<List<Users>>
+}
+
+
+4.@Database(entities = [Users::class], version = 1)
+abstract class UserDatabase:RoomDatabase() {
+
+    abstract fun userDao():UserSDao
+}
+
+
+5.class MainActivity : AppCompatActivity() {
+    lateinit var database: UserDatabase
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        database = Room.databaseBuilder(
+            applicationContext,
+            UserDatabase::class.java,
+            "userDB"
+        ).build()
+        GlobalScope.launch {
+            database.userDao().insertUser(Users(0, "android", "9876541"))
+        }
+    }
+}
