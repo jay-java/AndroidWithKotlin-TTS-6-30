@@ -1,0 +1,164 @@
+1. Dependency
+ implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+ implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+
+2.MainActivity
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_id"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</FrameLayout>
+
+
+3.CardView - layout
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:orientation="vertical"
+    android:background="#8A8686"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:textSize="25sp"
+        android:text="Title"
+        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+    <TextView
+        android:id="@+id/tvBody"
+        android:textSize="20sp"
+        android:text="Body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
+
+
+
+4. <uses-permission android:name="android.permission.INTERNET"/>
+
+
+5.model clas
+data class PostModel(
+    val userId: Int? = null,
+    val id: String? = null,
+    val title: String? = null,
+    val body: String? = null
+)
+
+6.
+object ServiceGenerator {
+    private val client = OkHttpClient.Builder().build()
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("https://jsonplaceholder.typicode.com")
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(client)
+        .build()
+
+    fun <T> buildServices(service:Class<T>):T{
+        return retrofit.create(service)
+    }
+}
+
+7.interface ApiService {
+    @GET("/posts")
+    fun getPosts():Call<MutableList<PostModel>>
+}
+
+
+
+8.package com.example.jsonapi
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import org.w3c.dom.Text
+
+class PostAdapter(val postModel:MutableList<PostModel>):RecyclerView.Adapter<PostViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.card_view,parent,false)
+        return  PostViewHolder(view)
+    }
+
+    override fun getItemCount(): Int {
+        return postModel.size
+    }
+
+    override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
+        return holder.bindView(postModel[position])
+    }
+
+}
+
+class PostViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    private  val tvTitle:TextView = itemView.findViewById(R.id.tvTitle)
+    private val tvBody:TextView = itemView.findViewById(R.id.tvBody)
+    fun bindView(postModel:PostModel){
+        tvTitle.text = postModel.title
+        tvBody.text = postModel.body
+    }
+}
+
+
+9.
+package com.example.jsonapi
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.util.Log
+import android.widget.Button
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        val recyclerView= findViewById<RecyclerView>(R.id.recycler_id)
+        val serviceGenerator = ServiceGenerator.buildServices(ApiService::class.java)
+        val call = serviceGenerator.getPosts()
+
+
+        call.enqueue(object : Callback<MutableList<PostModel>> {
+            override fun onResponse(
+                call: Call<MutableList<PostModel>>,
+                response: Response<MutableList<PostModel>>
+            ) {
+                if (response.isSuccessful) {
+                    recyclerView.apply {
+                        layoutManager = LinearLayoutManager(this@MainActivity)
+                        adapter = PostAdapter(response.body()!!)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<MutableList<PostModel>>, t: Throwable) {
+                t.printStackTrace()
+                Log.e("error", t.message.toString())
+            }
+
+        })
+
+
+    }
+}
