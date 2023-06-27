@@ -5,6 +5,7 @@ import retrofit2.http.GET
 
 interface ApiProvider {
 
-    @GET("/posts")
+    @GET("/photos")
     fun getPosts(): Call<MutableList<PostModel>>
+
 }

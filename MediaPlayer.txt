@@ -1,0 +1,152 @@
+take 3 drawable files for icons
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <LinearLayout
+        android:id="@+id/linearlayout_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <SeekBar
+            android:id="@+id/seekbar_id"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:clickable="true"
+                app:srcCompat="@drawable/baseline_play_arrow_24"/>
+
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_pause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:clickable="true"
+                app:srcCompat="@drawable/baseline_pause_24"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_stop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:clickable="true"
+                app:srcCompat="@drawable/baseline_stop_24"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>
+
+
+package com.example.mediaplayer
+
+import android.media.MediaPlayer
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.os.Handler
+import android.util.Log
+import android.widget.SeekBar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.lang.Exception
+
+class MainActivity : AppCompatActivity() {
+    private var mp: MediaPlayer? = null
+    private var currentSong = mutableListOf(R.raw.shiva)
+    lateinit var play: FloatingActionButton
+    lateinit var pause: FloatingActionButton
+    lateinit var stop: FloatingActionButton
+    lateinit var seekBar: SeekBar
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        controlSound(currentSong[0])
+    }
+
+    private fun controlSound(i: Int) {
+        play = findViewById(R.id.fab_play)
+        pause = findViewById(R.id.fab_pause)
+        stop = findViewById(R.id.fab_stop)
+
+        play.setOnClickListener {
+            if (mp == null) {
+                mp = MediaPlayer.create(this, i)
+                Log.d("MainActivity", "i : ${mp!!.audioSessionId}")
+                initialiseSeekBar()
+            }
+            mp?.start()
+            Log.d("MainActivity", "Duration : ${mp!!.duration / 1000} seconds")
+        }
+
+        pause.setOnClickListener {
+            if (mp != null) mp?.pause()
+            Log.d("MainActicity", "Pause : ${mp!!.currentPosition / 1000} seconds")
+        }
+
+        stop.setOnClickListener {
+            if (mp !== null) {
+                mp?.stop()
+                mp?.reset()
+                mp?.release()
+                mp == null
+            }
+        }
+        seekBar = findViewById(R.id.seekbar_id)
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (fromUser) mp?.seekTo(progress)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+
+        })
+    }
+
+    private fun initialiseSeekBar() {
+        seekBar.max = mp!!.duration
+        var handler = Handler()
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                try {
+                    seekBar.progress = mp!!.currentPosition
+                    handler.postDelayed(this, 1000)
+                } catch (e: Exception) {
+                    seekBar.progress = 0
+                }
+            }
+
+        })
+
+    }
+}
+
+private fun Handler.postDelayed(runnable: Runnable) {
+
+}
+
+
+

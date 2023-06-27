@@ -3,8 +3,10 @@ package com.example.json
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 
 class PostAdapter(val postModel:MutableList<PostModel>): RecyclerView.Adapter<PostViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -25,8 +27,10 @@ class PostAdapter(val postModel:MutableList<PostModel>): RecyclerView.Adapter<Po
 class PostViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
     private  val tvTitle: TextView = itemView.findViewById(R.id.tvTitle)
     private val tvBody: TextView = itemView.findViewById(R.id.tvBody)
+    private val thumbnailUrl:ImageView = itemView.findViewById(R.id.image_id)
     fun bindView(postModel:PostModel){
         tvTitle.text = postModel.title
-        tvBody.text = postModel.body
+        tvBody.text = postModel.id
+        Picasso.get().load(postModel.thumbnailUrl).into(thumbnailUrl)
     }
 }

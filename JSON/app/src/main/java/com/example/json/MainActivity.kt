@@ -19,9 +19,7 @@ class MainActivity : AppCompatActivity() {
         val call = serviceGenerator.getPosts()
 
         call.enqueue(object :Callback<MutableList<PostModel>>{
-            override fun onResponse(
-                call: Call<MutableList<PostModel>>,
-                response: Response<MutableList<PostModel>>
+            override fun onResponse(call: Call<MutableList<PostModel>>,response: Response<MutableList<PostModel>>
             ) {
                 if(response.isSuccessful){
                     recyclerView.apply {

@@ -1,8 +1,8 @@
 package com.example.json
 
 data class PostModel(
-    val userId: Int? = null,
+    val albumId: Int? = null,
     val id: String? = null,
     val title: String? = null,
-    val body: String? = null
+    val thumbnailUrl: String? = null
 )
