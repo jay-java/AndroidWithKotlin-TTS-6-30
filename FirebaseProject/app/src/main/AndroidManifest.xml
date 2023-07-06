@@ -13,6 +13,9 @@
         android:theme="@style/Theme.FirebaseProject"
         tools:targetApi="31">
         <activity
+            android:name=".UsersList"
+            android:exported="false" />
+        <activity
             android:name=".add_user"
             android:exported="false" />
         <activity

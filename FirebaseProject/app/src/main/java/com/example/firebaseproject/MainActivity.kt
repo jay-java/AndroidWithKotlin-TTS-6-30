@@ -18,5 +18,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity,add_user::class.java)
             startActivity(intent)
         }
+        showUser.setOnClickListener {
+            val intent = Intent(this@MainActivity,UsersList::class.java)
+            startActivity(intent)
+        }
+
     }
 }
