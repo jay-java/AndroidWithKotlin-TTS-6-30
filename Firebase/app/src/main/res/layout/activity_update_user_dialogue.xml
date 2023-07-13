@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="10dp">
+
+    <EditText
+        android:id="@+id/update_name_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:layout_margin="20dp"/>
+    <EditText
+        android:id="@+id/update_contact_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Contact"
+        android:layout_margin="20dp"/>
+
+    <EditText
+        android:id="@+id/update_address_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Address"
+        android:layout_margin="20dp"/>
+
+    <EditText
+        android:id="@+id/update_email_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:layout_margin="20dp"/>
+    <EditText
+        android:id="@+id/update_password_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:layout_margin="20dp"/>
+    <Button
+        android:id="@+id/update_user_BTN"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update"
+        android:layout_margin="20dp"/>
+
+</LinearLayout>
