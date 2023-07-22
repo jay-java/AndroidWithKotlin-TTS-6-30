@@ -1,6 +1,7 @@
 package com.example.registerlogin
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -24,6 +25,48 @@ class Home : AppCompatActivity() {
         passwordTextView = findViewById(R.id.password_text_id)
         logoutBTN = findViewById(R.id.logout_btn_id)
 
-        val sharedPreferences = this?.getSharedPreferences(Context.MODE_PRIVATE)?:return
+        val sharedPreferences = this?.getPreferences(Context.MODE_PRIVATE)?:return
+        val isLogin = sharedPreferences.getString("email","1")
+        val email = intent.getStringExtra("email")
+
+        logoutBTN = findViewById(R.id.logout_btn_id)
+        logoutBTN.setOnClickListener {
+            sharedPreferences.edit().remove("email").apply()
+            val i = Intent(this,Login::class.java)
+            startActivity(i)
+            finish()
+        }
+
+        if(isLogin == "1"){
+            var email = intent.getStringExtra("email")
+            if(email!=null){
+                setData(email)
+                with(sharedPreferences.edit()) {
+                    putString("email", email)
+                    apply()
+                }
+            }
+            else{
+                val i = Intent(this,Login::class.java)
+                startActivity(i)
+                finish()
+            }
+        }
+        else{
+            setData(isLogin)
+        }
+    }
+    private fun setData(email: String?) {
+        firebaseFireStore = FirebaseFirestore.getInstance()
+        if (email != null) {
+            firebaseFireStore.collection("users").document(email).get()
+                .addOnSuccessListener { task->
+                    nameTextView.text = task.get("name").toString()
+                    contactTextView.text = task.get("contact").toString()
+                    emailTextView.text = task.get("email").toString()
+                    passwordTextView.text = task.get("password").toString()
+                }
+        }
+
     }
 }
